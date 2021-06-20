@@ -1,9 +1,12 @@
 FROM alpine:3.13
 
 ARG  S6_VER=2.2.0.3
-ARG  CALIBRE_WEB_VER=0.6.12
+ARG  CALIBRE_WEB_VER=0.6.12c
 ARG  CALIBRE_VER=5.10.1
 ARG  KEPUBIFY_VER=3.1.6
+
+RUN sed -i 's/https/http/' /etc/apk/repositories
+RUN apk add curl
 
 ENV USER=
 ENV PASSWORD=
@@ -25,7 +28,7 @@ RUN apk add --no-cache bash ca-certificates  tzdata python3 py3-pip unrar expect
 &&  wget -P /tmp  https://github.com/gshang2017/bypy/releases/download/v${CALIBRE_VER}/calibre-${CALIBRE_VER}-${calibre_arch}.musl.txz \
 &&  mkdir -p /opt/calibre && rm -rf /opt/calibre/* && tar xvf /tmp/calibre-${CALIBRE_VER}-${calibre_arch}.musl.txz -C /opt/calibre && /opt/calibre/calibre_postinstall \
 #install  calibre-web
-&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
+&&  wget -P /tmp  https://github.com/844189873/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \
 #douban api

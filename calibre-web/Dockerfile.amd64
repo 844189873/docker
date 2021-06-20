@@ -1,7 +1,7 @@
 FROM alpine:3.12
 
 ARG  S6_VER=2.1.0.2
-ARG  CALIBRE_WEB_VER=0.6.9
+ARG  CALIBRE_WEB_VER=0.6.12c
 ARG  CALIBRE_VER=5.2.0
 ARG  KEPUBIFY_VER=3.1.6
 
@@ -21,7 +21,7 @@ RUN apk add --no-cache bash ca-certificates  python3 py3-pip unrar expect imagem
 &&  wget -P /tmp  https://github.com/gshang2017/bypy/releases/download/v${CALIBRE_VER}/calibre-${CALIBRE_VER}-x86_64.musl.txz \
 &&  mkdir -p /opt/calibre && rm -rf /opt/calibre/* && tar xvf /tmp/calibre-${CALIBRE_VER}-x86_64.musl.txz -C /opt/calibre && /opt/calibre/calibre_postinstall \
 #install  calibre-web
-&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
+&&  wget -P /tmp  https://github.com/844189873/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \
 #install calibre-web dep

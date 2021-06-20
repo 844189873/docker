@@ -2,7 +2,7 @@ FROM alpine:3.12
 
 ARG  GLIBC_VER=2.31
 ARG  S6_VER=2.0.0.1
-ARG  CALIBRE_WEB_VER=0.6.8
+ARG  CALIBRE_WEB_VER=0.6.12c
 ARG  CALIBRE_VER=3.48.0
 ARG  KEPUBIFY_VER=3.1.2
 
@@ -28,7 +28,7 @@ RUN apk add --no-cache bash ca-certificates zstd  python3 py3-pip  unrar py3-lxm
 #install  calibre-ebook 
 &&  wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | bash /dev/stdin version=${CALIBRE_VER} \
 #install  calibre-web
-&&  wget -P /tmp  https://github.com/janeczku/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
+&&  wget -P /tmp  https://github.com/844189873/calibre-web/archive/${CALIBRE_WEB_VER}.zip  \
 &&  unzip -d /tmp      /tmp/${CALIBRE_WEB_VER}.zip   \
 &&  cp -rf  /tmp/calibre-web-${CALIBRE_WEB_VER}/*  /usr/local/calibre-web/  \ 
 #install calibre-web dep
