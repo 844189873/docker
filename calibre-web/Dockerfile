@@ -7,6 +7,9 @@ ARG  KEPUBIFY_VER=3.1.6
 
 RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk add curl
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+
 
 ENV USER=
 ENV PASSWORD=
