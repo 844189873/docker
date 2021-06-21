@@ -9,7 +9,7 @@ RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk add curl
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN pip install -U pip
-RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip config set install.trusted-host mirrors.aliyun.com
 
 ENV USER=
