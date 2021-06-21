@@ -38,8 +38,8 @@ RUN apk add --no-cache bash ca-certificates  tzdata python3 py3-pip unrar expect
 #install calibre-web dep
 &&  apk add --no-cache py3-lxml py3-cryptography \
 #&&  apk add --no-cache 'py3-six<1.15.0' --repository http://dl-4.alpinelinux.org/alpine/v3.11/main  \
-&&  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r /usr/local/calibre-web/requirements.txt  \
-&&  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple  --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \
+&&  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.doubanio.com --no-cache-dir -r /usr/local/calibre-web/requirements.txt  \
+&&  pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.doubanio.com --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \
 #install kepubify
 &&  if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi  \
 &&   wget -t 0 -c https://github.com/geek1011/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify   \
