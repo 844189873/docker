@@ -8,9 +8,9 @@ ARG  KEPUBIFY_VER=3.1.6
 RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk add curl
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN pip install -U pip
-RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip config set install.trusted-host mirrors.aliyun.com
+RUN pip3 install -U pip3
+RUN pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip3 config set install.trusted-host mirrors.aliyun.com
 
 ENV USER=
 ENV PASSWORD=
