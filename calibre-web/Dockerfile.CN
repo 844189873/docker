@@ -5,7 +5,7 @@ ARG  CALIBRE_WEB_VER=0.6.12c
 ARG  CALIBRE_VER=5.10.1
 ARG  KEPUBIFY_VER=3.1.6
 ARG  GITHUB_ACCELERATE=https://shrill-pond-3e81.hunsh.workers.dev/
-ARG  PIP_SRC=https://pypi.douban.com/simple --trusted-host pypi.doubanio.com 
+ARG  PIP_SRC= -i https://pypi.douban.com/simple --trusted-host pypi.douban.com 
 
 RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk add curl
