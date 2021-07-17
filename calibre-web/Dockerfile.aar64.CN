@@ -1,16 +1,20 @@
 FROM alpine:3.13
 
+ARG  BUILD_ARCH=aarch64
 ARG  S6_VER=2.2.0.3
 ARG  CALIBRE_WEB_VER=0.6.12c
 ARG  CALIBRE_VER=5.10.1
 ARG  KEPUBIFY_VER=3.1.6
+
 #ARG  GITHUB_ACCELERATE=https://shrill-pond-3e81.hunsh.workers.dev/https://github.com
 ARG  GITHUB_ACCELERATE=http://39.106.250.13/fservice/calibre
 ARG  PIP_SRC= -i https://pypi.douban.com/simple --trusted-host pypi.douban.com 
 
 RUN sed -i 's/https/http/' /etc/apk/repositories
 RUN apk add curl
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN echo -e https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.13/community/ > /etc/apk/repositories
+RUN echo -e https://mirrors.tuna.tsinghua.edu.cn/alpine/v3.13/main/ > /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 ENV USER=
 ENV PASSWORD=
@@ -24,11 +28,11 @@ COPY  root  /
 RUN apk add --no-cache bash ca-certificates  tzdata python3 py3-pip unrar expect imagemagick6 	libintl libstdc++ libxcb mesa-gl mesa-gles bash-completion libxi libxcomposite freetype fontconfig libidn nss eudev  libxrender libxcursor libxtst libxrandr libxkbcommon libatomic ttf-dejavu inotify-tools \
 &&  apk add --no-cache --virtual  calibrewebdep build-base libffi-dev git python3-dev openldap-dev libxml2-dev libxslt-dev libjpeg-turbo-dev libevent-dev file cython  \
 #install s6-overlay
-&&  if [ "$(uname -m)" = "x86_64" ];then s6_arch=amd64;elif [ "$(uname -m)" = "aarch64" ];then s6_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then s6_arch=arm; fi  \
+&&  if [ "$BUILD_ARCH" = "x86_64" ];then s6_arch=amd64;elif [ "$BUILD_ARCH" = "aarch64" ];then s6_arch=aarch64;elif [ "$BUILD_ARCH" = "armv7l" ];then s6_arch=arm; fi  \
 &&  wget -t 0 -c --no-check-certificate ${GITHUB_ACCELERATE}/just-containers/s6-overlay/releases/download/v${S6_VER}/s6-overlay-${s6_arch}.tar.gz  \
 &&  tar -xvzf s6-overlay-${s6_arch}.tar.gz  \
 #install  calibre-ebook
-&&  if [ "$(uname -m)" = "x86_64" ];then calibre_arch=x86_64;elif [ "$(uname -m)" = "aarch64" ];then calibre_arch=aarch64;elif [ "$(uname -m)" = "armv7l" ];then calibre_arch=armv7; fi  \
+&&  if [ "$BUILD_ARCH" = "x86_64" ];then calibre_arch=x86_64;elif [ "$BUILD_ARCH" = "aarch64" ];then calibre_arch=aarch64;elif [ "$BUILD_ARCH" = "armv7l" ];then calibre_arch=armv7; fi  \
 &&  wget -t 0 -c -P /tmp  ${GITHUB_ACCELERATE}/gshang2017/bypy/releases/download/v${CALIBRE_VER}/calibre-${CALIBRE_VER}-${calibre_arch}.modify.musl.txz \
 &&  mkdir -p /opt/calibre && rm -rf /opt/calibre/* && tar xvf /tmp/calibre-${CALIBRE_VER}-${calibre_arch}.modify.musl.txz -C /opt/calibre && /opt/calibre/calibre_postinstall \
 #install  calibre-web
@@ -47,7 +51,7 @@ RUN apk add --no-cache bash ca-certificates  tzdata python3 py3-pip unrar expect
 &&  pip3  install ${PIP_SRC} --no-cache-dir  -r /usr/local/calibre-web/requirements.txt  \
 #&&  pip3  install ${PIP_SRC} --no-cache-dir  -r /usr/local/calibre-web/optional-requirements.txt  \
 #install kepubify
-&&  if [ "$(uname -m)" = "x86_64" ];then kepubify_arch=64bit;elif [ "$(uname -m)" = "aarch64" ];then kepubify_arch=arm64;elif [ "$(uname -m)" = "armv7l" ];then kepubify_arch=arm;  fi  \
+&&  if [ "$BUILD_ARCH" = "x86_64" ];then kepubify_arch=64bit;elif [ "$BUILD_ARCH" = "aarch64" ];then kepubify_arch=arm64;elif [ "$BUILD_ARCH" = "armv7l" ];then kepubify_arch=arm;  fi  \
 &&  wget -t 0 -c ${GITHUB_ACCELERATE}/geek1011/kepubify/releases/download/v${KEPUBIFY_VER}/kepubify-linux-${kepubify_arch} -O /usr/local/bin/kepubify   \
 #clean
 &&  apk del  calibrewebdep  \
