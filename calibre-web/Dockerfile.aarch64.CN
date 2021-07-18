@@ -71,6 +71,7 @@ RUN apk add --no-cache bash ca-certificates  tzdata python3 py3-pip unrar expect
 &&  chmod a+x /usr/local/calibre-server/languagechange.sh   \
 &&  chmod a+x /usr/local/bin/kepubify
 
-VOLUME /library  /config /autoaddbooks
+# share book libray:/library 
+VOLUME  /config /autoaddbooks
 EXPOSE 8080 8083
 ENTRYPOINT [ "/init" ]
